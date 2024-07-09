@@ -8,5 +8,8 @@ useHead({
 </script>
 
 <template>
-  <CardGrid />
+  <div>
+    <Search /> 
+    <CardGrid class="my-20" />
+  </div>
 </template>

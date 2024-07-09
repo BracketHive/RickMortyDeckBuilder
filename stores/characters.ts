@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { Character } from "@/types";
-import { getCharacters, getRandomNumCharacters } from "@/api/character"
+import { getCharacters, getRandomNumCharacters, filterCharacters } from "@/api/character"
 
 export interface CharactersState {
   characters: Character[],
@@ -12,7 +12,8 @@ export interface CharactersGetters {
 
 export interface CharactersActions {
   loadCharacters: () => void,
-  loadRandomNumCharacters: () => Character[]
+  loadRandomNumCharacters: () => Character[],
+  searchCharacters: (param?: string, value?: string) => Character[]
 }
 
 export const useCharactersStore = defineStore<string, CharactersState, CharactersGetters, CharactersActions>('characters', {
@@ -42,6 +43,12 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
       const { data, error } = await getRandomNumCharacters(randomNums);
       if (data) this.characters = data;
       if (error) console.log(error)
+    },
+
+    async searchCharacters(param?: string, value?: string) {
+      const { data, error } = await filterCharacters(param, value);
+      if (error) console.log(error)
+      if (data) this.characters = data
     },
   },
 })
