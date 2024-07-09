@@ -4,16 +4,16 @@ import type { Character, ApiResponse, ApiError } from '@/types'
 export const getCharacters = async (): Promise<ApiResponse<Character[], ApiError>> => {
   try {
     const data = await API.get('character')
-    return { data: data.results }
+    return { data: data }
   } catch(e) {
     return { error: Object(e) }
   }
 }
 
-export const getRandomNumCharacters = async (num: number[]): Promise<ApiResponse<Character[], ApiError>> => {
+export const getRandomNumCharacters = async (nums: number[]): Promise<ApiResponse<Character[], ApiError>> => {
   try {
-    const data = await API.get(`character/${num}`)
-    return { data: data.results }
+    const data = await API.get(`character/${nums}`)
+    return { data: data }
   } catch(e) {
     return { error: Object(e) }
   }

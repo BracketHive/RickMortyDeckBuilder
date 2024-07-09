@@ -7,12 +7,12 @@ export interface CharactersState {
 }
 
 export interface CharactersGetters {
-
+  getCharacters: (state: CharactersState) => Character[]
 }
 
 export interface CharactersActions {
   loadCharacters: () => void,
-  loadRandomNumCharacters: (num: number[]) => Character[]
+  loadRandomNumCharacters: () => Character[]
 }
 
 export const useCharactersStore = defineStore<string, CharactersState, CharactersGetters, CharactersActions>('characters', {
@@ -22,23 +22,26 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
     }
   },
   getters: {
-
+    getCharacters(state: CharactersState) {
+      return state.characters;
+    }
   },
   actions: {
-    async loadCharacters () {
+    async loadCharacters() {
       const { data, error } = await getCharacters();
       if (data) this.characters = data;
-      console.log('Characters: ', data)
       if (error) console.log(error)
     },
 
-    async loadRandomNumCharacters (num: number[]) {
-      const { data, error } = await getRandomNumCharacters(num);
+    async loadRandomNumCharacters() {
+      const randomNums = []
+      for (let i = 0; i < 9; i++) {
+        randomNums.push(Math.floor(Math.random() * 826) + 1)
+      }
+
+      const { data, error } = await getRandomNumCharacters(randomNums);
       if (data) this.characters = data;
       if (error) console.log(error)
     },
-  },
-  persist: {
-
   },
 })
