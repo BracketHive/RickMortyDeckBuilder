@@ -9,7 +9,9 @@ useHead({
 
 <template>
   <div>
-    <Search /> 
+    <Search />
+
+    <Deck />
     <CardGrid class="my-20" />
   </div>
 </template>

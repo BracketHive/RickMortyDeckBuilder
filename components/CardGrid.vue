@@ -37,7 +37,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center w-auto h-screen">
+  <div class="flex flex-col justify-center items-center w-auto">
     <button :disabled="timeout" type="button"
       :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900']"
       @click="shuffleChars">
