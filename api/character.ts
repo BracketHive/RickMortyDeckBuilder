@@ -4,7 +4,7 @@ import type { Character, ApiResponse, ApiError } from '@/types'
 export const getCharacters = async (): Promise<ApiResponse<Character[], ApiError>> => {
   try {
     const data = await API.get('character')
-    return { data: data }
+    return { data: data.results }
   } catch (e) {
     return { error: Object(e) }
   }

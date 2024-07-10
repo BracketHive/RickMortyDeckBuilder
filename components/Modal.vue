@@ -10,7 +10,7 @@ const emits = defineEmits(['close'])
 
 <template>
   <div v-if="isVisible" id="default-modal" tabindex="-1" aria-hidden="true"
-    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 bg-slate-950/80 flex justify-center items-center w-full md:inset-0 h-screen max-h-full">
+    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 bg-slate-950/20 flex justify-center items-center w-full md:inset-0 h-screen max-h-full">
     <div class="flex justify-center items-center w-11/12 max-w-2xl">
       <!-- Modal content -->
       <div class="relative bg-white rounded-lg shadow w-11/12">
