@@ -48,27 +48,34 @@ onMounted(() => {
       </span>
     </button>
 
-    <div class="grid grid-cols-3 gap-4">
-      <div v-for="char in characters">
-        <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl">
-          <img class="object-fill w-full rounded-t-lg h-100 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-            :src="char.image" alt="">
-          <div class="flex flex-col justify-between p-4 leading-normal">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 cursor-pointer hover:text-purple-700" @click="toggleModal(char)">{{ char.name }}</h5>
-            <div class="flex justify-start items-center flex-row">
-              <span
-                :class="[{ 'bg-green-500': char.status === 'Alive', 'bg-red-500': char.status === 'Dead', 'bg-gray-300': char.status === 'unknown' }, 'flex w-3 h-3 me-3 rounded-full']"></span>
-              <p>{{ char.status }} - {{ char.species }}</p>
+    <div v-if="characters.length !== 0">
+      <div class="grid grid-cols-3 gap-4">
+        <div v-for="char in characters">
+          <div
+            class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl">
+            <img class="object-fill w-full rounded-t-lg h-100 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+              :src="char.image" alt="">
+            <div class="flex flex-col justify-between p-4 leading-normal">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 cursor-pointer hover:text-purple-700"
+                @click="toggleModal(char)">{{ char.name }}</h5>
+              <div class="flex justify-start items-center flex-row">
+                <span
+                  :class="[{ 'bg-green-500': char.status === 'Alive', 'bg-red-500': char.status === 'Dead', 'bg-gray-300': char.status === 'unknown' }, 'flex w-3 h-3 me-3 rounded-full']"></span>
+                <p>{{ char.status }} - {{ char.species }}</p>
+              </div>
+              <p class="text-gray-500 mt-3">Origin:</p>
+              <h2 class="text-lg">{{ char.origin.name }}</h2>
+              <p class="text-gray-500 mt-3">Location:</p>
+              <h2 class="text-lg">{{ char.location.name }}</h2>
             </div>
-            <p class="text-gray-500 mt-3">Origin:</p>
-            <h2 class="text-lg">{{ char.origin.name }}</h2>
-            <p class="text-gray-500 mt-3">Location:</p>
-            <h2 class="text-lg">{{ char.location.name }}</h2>
           </div>
         </div>
-      </div>
 
-      <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal()" />
+        <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal()" />
+      </div>
+    </div>
+    <div v-else>
+      <h2 class="text-3xl mt-52">No characters found</h2>
     </div>
   </div>
 </template>

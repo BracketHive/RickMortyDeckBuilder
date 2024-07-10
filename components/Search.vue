@@ -7,12 +7,16 @@ const characters = computed(() => charStore.getCharacters)
 const searchQuery = ref('')
 
 const getFilteredCharacters = () => {
+  let query = searchQuery.value.toLowerCase()
+
+  // Call search api after 3 characters are typed
   if (searchQuery.value.length > 2) {
+    charStore.clearCharacters()
     charStore.searchCharacters('name', searchQuery.value)
-    charStore.searchCharacters('status', searchQuery.value)
+    if (['alive', 'dead', 'unknown'].includes(query)) charStore.searchCharacters('status', searchQuery.value)
     charStore.searchCharacters('species', searchQuery.value)
     charStore.searchCharacters('type', searchQuery.value)
-    charStore.searchCharacters('gender', searchQuery.value)
+    if (['male', 'female', 'genderless', 'unknown'].includes(query)) charStore.searchCharacters('gender', searchQuery.value)
   }
   else if (searchQuery.value.length === 0) {
     charStore.loadRandomNumCharacters();
@@ -33,7 +37,7 @@ const getFilteredCharacters = () => {
       </div>
       <input v-model="searchQuery" type="search" id="default-search"
         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50"
-        placeholder="Search characters..." required @input="getFilteredCharacters" />
+        placeholder="Search haracters..." required @input="getFilteredCharacters" />
     </div>
   </form>
 </template>

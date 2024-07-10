@@ -13,7 +13,8 @@ export interface CharactersGetters {
 export interface CharactersActions {
   loadCharacters: () => void,
   loadRandomNumCharacters: () => Character[],
-  searchCharacters: (param?: string, value?: string) => Character[]
+  searchCharacters: (param?: string, value?: string) => Character[],
+  clearCharacters: () => void
 }
 
 export const useCharactersStore = defineStore<string, CharactersState, CharactersGetters, CharactersActions>('characters', {
@@ -45,10 +46,18 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
       if (error) console.log(error)
     },
 
+    clearCharacters() {
+      this.characters = []
+    },
+
     async searchCharacters(param?: string, value?: string) {
       const { data, error } = await filterCharacters(param, value);
       if (error) console.log(error)
-      if (data) this.characters = data
+      if (data) {
+          for (let i = 0; i < data.length; i++) {
+            this.characters.push(data[i])
+          }
+      }
     },
   },
 })
