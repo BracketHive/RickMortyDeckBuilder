@@ -8,7 +8,7 @@ const num = ref(8)
 
 <template>
   <div class="flex flex-row my-8 justify-center items-center">
-    <div class="grid grid-cols-4 lg:grid-cols-8 gap-4 w-11/12 bg-gray-100 p-4 rounded-lg">
+    <div class="grid grid-cols-4 xl:grid-cols-8 gap-4 w-10/12 lg:w-10/12 bg-gray-100 p-4 rounded-lg">
       <div v-for="char in chars" class="w-auto max-w-sm bg-white border border-gray-200 rounded-lg">
         <div>
           <img class="rounded-t-lg w-auto" :src="char.image" alt="" />
