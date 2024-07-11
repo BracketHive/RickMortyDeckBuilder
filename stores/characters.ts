@@ -4,41 +4,52 @@ import { getCharacters, getRandomNumCharacters, filterCharacters } from "@/api/c
 
 export interface CharactersState {
   characters: Character[],
+  charCount: number
 }
 
 export interface CharactersGetters {
-  getCharacters: (state: CharactersState) => Character[]
+  getCharacters: (state: CharactersState) => Character[],
+  getCount: (state: CharactersState) => number
 }
 
 export interface CharactersActions {
-  loadCharacters: () => void,
+  countCharacters: () => void,
   loadRandomNumCharacters: () => Character[],
   searchCharacters: (param?: string, value?: string) => Character[],
-  clearCharacters: () => void
+  clearCharacters: () => void,
+  createCharacter: (char: Partial<Character>) => void
 }
 
 export const useCharactersStore = defineStore<string, CharactersState, CharactersGetters, CharactersActions>('characters', {
   state: () => {
     return {
       characters: [],
+      charCount: 0
     }
   },
   getters: {
     getCharacters(state: CharactersState) {
       return state.characters;
-    }
+    },
+
+    getCount(state: CharactersState) {
+      return state.charCount
+    },
   },
   actions: {
-    async loadCharacters() {
+    async countCharacters() {
       const { data, error } = await getCharacters();
-      if (data) this.characters = data;
+      if (data) {
+        // @ts-ignore
+         this.charCount = data.info.count;
+      }
       if (error) console.log(error)
     },
 
     async loadRandomNumCharacters() {
       const randomNums = []
       for (let i = 0; i < 9; i++) {
-        randomNums.push(Math.floor(Math.random() * 826) + 1)
+        randomNums.push(Math.floor(Math.random() * this.charCount) + 1)
       }
 
       const { data, error } = await getRandomNumCharacters(randomNums);
@@ -59,5 +70,13 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
           }
       }
     },
+
+    createCharacter(char: Partial<Character>) {
+      this.characters.push(char)
+    },
+  },
+
+  persist: {
+    paths: ['characters', 'charCount']
   },
 })

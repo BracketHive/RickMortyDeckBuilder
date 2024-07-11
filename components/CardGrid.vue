@@ -10,11 +10,11 @@ const deckStore = useDeckStore()
 const isDragging = computed(() => deckStore.getDragging)
 
 const characters = computed(() => charStore.getCharacters)
-const trash = ref(characters.value.splice(0, 2))
 
 const loading = ref(false)
 const timeout = ref(0)
 const showModal = ref(false)
+const showCreateModal = ref(false)
 const selectedChar = ref()
 
 const toggleModal = (char: Character) => {
@@ -37,6 +37,10 @@ const shuffleChars = async () => {
   }, 15000);
 }
 
+const toggleCreateModal = () => {
+  showCreateModal.value = !showCreateModal.value
+}
+
 onMounted(() => {
   charStore.loadRandomNumCharacters();
 })
@@ -46,22 +50,30 @@ onMounted(() => {
   <div class="flex flex-col justify-center items-center w-auto">
     <div v-if="isDragging" class="flex flex-col justify-center items-center">
       <h2 class="text-red-500 text-xl">Drop here to remove</h2>
-      <Draggable group="deck" item-key="id"
-      class="border-dashed border-2 border-red-300 rounded-lg h-52 w-72">
-      <template #item>
-      </template>
+      <Draggable group="deck" item-key="id" class="border-dashed border-2 border-red-300 rounded-lg h-52 w-72">
+        <template #item>
+        </template>
       </Draggable>
     </div>
 
-    <button :disabled="timeout" type="button"
-      :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900']"
-      @click="shuffleChars">
-      <span v-if="!loading">{{ timeout !== 0 ? timeout : '' }} Shuffle</span>
-      <span v-if="loading">
-        <Spinner />
-        Shuffling...
-      </span>
-    </button>
+    <div class="flex flex-row justify-center items-center">
+      <button type="button"
+        class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5"
+        @click="toggleCreateModal">
+        <span>Create</span>
+      </button>
+      <AddCharacterModal :is-visible="showCreateModal" @close="toggleCreateModal" />
+
+      <button :disabled="timeout" type="button"
+        :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5']"
+        @click="shuffleChars">
+        <span v-if="!loading">{{ timeout !== 0 ? timeout : '' }} Shuffle</span>
+        <span v-if="loading">
+          <Spinner />
+          Shuffling...
+        </span>
+      </button>
+    </div>
 
     <div v-if="characters.length !== 0">
       <Draggable v-model="characters" item-key="id" :group="{ name: 'deck', put: false }"
@@ -86,7 +98,8 @@ onMounted(() => {
                 <h2 class="text-lg">{{ char.location.name }}</h2>
               </div>
             </div>
-            <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal()" />
+
+            <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal" />
           </div>
         </template>
       </Draggable>
