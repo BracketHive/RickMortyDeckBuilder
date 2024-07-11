@@ -2,7 +2,7 @@
 import type { Character } from '@/types'
 const props = defineProps<{
   isVisible: boolean,
-  char: Character
+  char?: Character
 }>()
 
 const emits = defineEmits(['close'])

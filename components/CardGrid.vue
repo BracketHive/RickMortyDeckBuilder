@@ -84,7 +84,7 @@ onMounted(() => {
     <div v-if="characters.length !== 0 || characters !== undefined">
       <Draggable v-model="characters" item-key="id" :group="{ name: 'deck', put: false }" class="grid grid-cols-3 gap-4">
         <template #item="{ element: char }">
-          <div>
+          <div v-if="char">
             <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl">
               <img class="object-fill w-full rounded-t-lg h-100 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" :src="char.image" alt="">
               <div class="flex flex-col justify-between p-4 leading-normal">
@@ -100,10 +100,10 @@ onMounted(() => {
               </div>
             </div>
 
-            <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal" />
           </div>
         </template>
       </Draggable>
+      <Modal :is-visible="showModal" :char="selectedChar" @close="toggleModal" />
     </div>
     <div v-else>
       <h2 class="text-3xl mt-52">No characters found</h2>

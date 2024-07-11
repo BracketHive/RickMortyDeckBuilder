@@ -40,7 +40,9 @@ export const useDeckStore = defineStore<string, DeckState, DeckGetters, DeckActi
   actions: {
     async loadDeck() {
       const { data, error } = await getCharacters();
-      if (data && this.deck.length === 0) this.deck = data.splice(0, 8);
+
+      if (this.deck.length === 0) return
+      if (data) this.deck = data.splice(0, 8);
       if (error) console.log(error)
     },
 

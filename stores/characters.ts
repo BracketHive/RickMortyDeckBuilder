@@ -47,6 +47,10 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
 
     async loadRandomNumCharacters() {
       const randomNums = []
+      if(this.charCount === 0) {
+        await this.countCharacters()
+      }
+
       for (let i = 0; i < 9; i++) {
         randomNums.push(Math.floor(Math.random() * this.charCount) + 1)
       }

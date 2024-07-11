@@ -22,6 +22,12 @@ Features
     *   Remove cards from the deck.
         
     *   Add new cards to the deck from the grid.
+
+*   **Electron App**:
+    
+    *   Cross-platform desktop application.
+        
+    *   Consistent user experience across Windows, macOS, and Linux.
         
         
 
