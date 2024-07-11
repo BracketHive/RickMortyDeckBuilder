@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useCharactersStore } from '@/stores/characters'
+import { useDeckStore } from '@/stores/deck'
 import moment from 'moment'
 import useVuelidate from '@vuelidate/core';
 import { required, minLength, maxLength } from '@vuelidate/validators';
@@ -8,9 +9,11 @@ const props = defineProps<{
   isVisible: boolean
 }>()
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close', 'fullDeck'])
 
 const charStore = useCharactersStore()
+const deckStore = useDeckStore()
+const deck = computed(() => deckStore.getDeck)
 const charCount = computed(() => charStore.getCount)
 
 const character = ref({
@@ -76,7 +79,11 @@ const submitForm = () => {
   v$.value.$touch();
   if (!v$.value.$invalid) {
     character.value.created = moment().format()
-    charStore.createCharacter(character.value)
+    if (deck.value.length < 8) deckStore.createCharacter(character.value)
+    else {
+      emits('fullDeck', true)
+      emits('close')
+    }
     emits('close')
   } else {
     alert('Please correct the errors in the form.');

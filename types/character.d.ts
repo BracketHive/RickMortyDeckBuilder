@@ -3,13 +3,13 @@ export interface Character {
   name: string,
   status: string,
   species: string,
-  type: string,
+  type?: string,
   gender: string,
-  origin: Origin,
+  origin?: Origin,
   location: Location,
   image: string,
-  episode: string[],
-  url: string,
+  episode?: string[],
+  url?: string,
   created: string
 }
 

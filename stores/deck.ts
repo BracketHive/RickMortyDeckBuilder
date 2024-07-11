@@ -15,7 +15,8 @@ export interface DeckGetters {
 
 export interface DeckActions {
   loadDeck: () => void,
-  modifyDeck: (task: string, action: any) => void
+  modifyDeck: (task: string, action: any) => void,
+  createCharacter: (char: Character) => void
 }
 
 export const useDeckStore = defineStore<string, DeckState, DeckGetters, DeckActions>('deck', {
@@ -47,7 +48,11 @@ export const useDeckStore = defineStore<string, DeckState, DeckGetters, DeckActi
       if (task === 'added') this.deck.splice(action.newIndex, 0, action.element)
       if (task === 'moved') this.deck.splice(action.newIndex, 0, this.deck.splice(action.oldIndex, 1)[0])
       if (task === 'removed') this.deck.splice(action.oldIndex, 1)
-    }
+    },
+
+    createCharacter(char: Character) {
+      this.deck.push(char)
+    },
   },
   persist: {
     paths: ['deck']

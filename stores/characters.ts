@@ -17,7 +17,6 @@ export interface CharactersActions {
   loadRandomNumCharacters: () => Character[],
   searchCharacters: (param?: string, value?: string) => Character[],
   clearCharacters: () => void,
-  createCharacter: (char: Partial<Character>) => void
 }
 
 export const useCharactersStore = defineStore<string, CharactersState, CharactersGetters, CharactersActions>('characters', {
@@ -70,13 +69,9 @@ export const useCharactersStore = defineStore<string, CharactersState, Character
           }
       }
     },
-
-    createCharacter(char: Partial<Character>) {
-      this.characters.push(char)
-    },
   },
 
   persist: {
-    paths: ['characters', 'charCount']
+    paths: ['charCount']
   },
 })

@@ -37,6 +37,15 @@ const shuffleChars = async () => {
   }, 15000);
 }
 
+const deckIsFull = ref(false)
+const toggleAlert = (e: boolean) => {
+  deckIsFull.value = e
+  setTimeout(() => {
+    deckIsFull.value = false
+  }, 3000)
+  showCreateModal.value = !showCreateModal.value
+}
+
 const toggleCreateModal = () => {
   showCreateModal.value = !showCreateModal.value
 }
@@ -48,6 +57,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col justify-center items-center w-auto">
+    <Alert :is-visible="deckIsFull" text="Adding failed! Cannot create new item, the deck is full" />
     <div v-if="isDragging" class="flex flex-col justify-center items-center">
       <h2 class="text-red-500 text-xl">Drop here to remove</h2>
       <Draggable group="deck" item-key="id" class="border-dashed border-2 border-red-300 rounded-lg h-52 w-72">
@@ -62,7 +72,7 @@ onMounted(() => {
         @click="toggleCreateModal">
         <span>Create</span>
       </button>
-      <AddCharacterModal :is-visible="showCreateModal" @close="toggleCreateModal" />
+      <AddCharacterModal :is-visible="showCreateModal" @full-deck="toggleAlert" @close="toggleCreateModal" />
 
       <button :disabled="timeout" type="button"
         :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5']"
