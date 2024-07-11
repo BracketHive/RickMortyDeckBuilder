@@ -67,16 +67,12 @@ onMounted(() => {
     </div>
 
     <div class="flex flex-row justify-center items-center">
-      <button type="button"
-        class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5"
-        @click="toggleCreateModal">
+      <button type="button" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5" @click="toggleCreateModal">
         <span>Create</span>
       </button>
       <AddCharacterModal :is-visible="showCreateModal" @full-deck="toggleAlert" @close="toggleCreateModal" />
 
-      <button :disabled="timeout" type="button"
-        :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5']"
-        @click="shuffleChars">
+      <button :disabled="timeout" type="button" :class="[{ 'cursor-not-allowed': timeout, 'bg-blue-300': timeout }, 'focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-1 my-4 mx-4 font-medium rounded-lg text-sm px-5 py-2.5']" @click="shuffleChars">
         <span v-if="!loading">{{ timeout !== 0 ? timeout : '' }} Shuffle</span>
         <span v-if="loading">
           <Spinner />
@@ -85,21 +81,16 @@ onMounted(() => {
       </button>
     </div>
 
-    <div v-if="characters.length !== 0">
-      <Draggable v-model="characters" item-key="id" :group="{ name: 'deck', put: false }"
-        class="grid grid-cols-3 gap-4">
+    <div v-if="characters.length !== 0 || characters !== undefined">
+      <Draggable v-model="characters" item-key="id" :group="{ name: 'deck', put: false }" class="grid grid-cols-3 gap-4">
         <template #item="{ element: char }">
           <div>
-            <div
-              class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl">
-              <img class="object-fill w-full rounded-t-lg h-100 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                :src="char.image" alt="">
+            <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl">
+              <img class="object-fill w-full rounded-t-lg h-100 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" :src="char.image" alt="">
               <div class="flex flex-col justify-between p-4 leading-normal">
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 cursor-pointer hover:text-purple-700"
-                  @click="toggleModal(char)">{{ char.name }}</h5>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 cursor-pointer hover:text-purple-700" @click="toggleModal(char)">{{ char.name }}</h5>
                 <div class="flex justify-start items-center flex-row">
-                  <span
-                    :class="[{ 'bg-green-500': char.status === 'Alive', 'bg-red-500': char.status === 'Dead', 'bg-gray-300': char.status === 'unknown' }, 'flex w-3 h-3 me-3 rounded-full']"></span>
+                  <span :class="[{ 'bg-green-500': char.status === 'Alive', 'bg-red-500': char.status === 'Dead', 'bg-gray-300': char.status === 'unknown' }, 'flex w-3 h-3 me-3 rounded-full']"></span>
                   <p>{{ char.status }} - {{ char.species }}</p>
                 </div>
                 <p class="text-gray-500 mt-3">Origin:</p>
